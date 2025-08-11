@@ -21,4 +21,16 @@ public class CityService {
         List<City> list = repository.findAll(Sort.by("name"));
         return list.stream().map(x -> new CityDTO(x)).toList();
     }
+
+    @Transactional
+    public CityDTO insert(CityDTO dto){
+        City entity = new City();
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new CityDTO(entity);
+    }
+
+    private void copyDtoToEntity(CityDTO dto, City entity) {
+        entity.setName(dto.getName());
+    }
 }
